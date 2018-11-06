@@ -1,8 +1,8 @@
 <script type="text/javascript">
-    RED.nodes.registerType('alarmPanel',{
+    RED.nodes.registerType('AnamicoAlarmPanel',{
         category: 'config',
         defaults: {
-            name: { value:"",required:true }
+            name: { value: "", required: true }
         },
         label: function() {
             return this.name || "Panel";
@@ -10,9 +10,14 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="alarmPanel">
+<script type="text/x-red" data-template-name="AnamicoAlarmPanel">
     <div class="form-row">
         <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
         <input type="text" id="node-config-input-name">
     </div>
+</script>
+
+<script type="text/x-red" data-help-name="AnamicoAlarmPanel">
+    <h3>Alarm Config Node</h3>
+    <p>Represents a single control panel, like a panel for a house.</p>
 </script>
