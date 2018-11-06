@@ -1,6 +1,6 @@
 'use strict';
 
-const async = require('async');
+//const async = require('async');
 
 module.exports = function(RED) {
 

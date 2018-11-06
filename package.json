@@ -2,13 +2,13 @@
   "name": "node-red-contrib-alarm",
   "version": "0.3.0",
   "description": "Nodes to build your own home alarm system. Designed to work easily with (but does not require) homekit.",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "node-red": {
     "nodes": {
-      "AnamicoAlarmSensor": "Alarm/sensor.js"
+      "AnamicoAlarmPanel": "alarm/panel.js",
+      "AnamicoAlarmSensor": "alarm/sensor.js"
     }
   },
   "repository": {
@@ -16,7 +16,8 @@
     "url": "git+https://github.com/Anamico/node-red-contrib-alarm.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "main": "index.js",
   "bugs": {
     "url": "https://github.com/Anamico/node-red-contrib-alarm/issues"
   },
