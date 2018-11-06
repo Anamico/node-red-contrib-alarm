@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    RED.nodes.registerType('AlarmCheck', {
+        category: 'Alarm',
+        color: '#FFFFFF',
+        defaults: {
+            name: { value : "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        inputLabels: "1",
+        outputLabels: "2",
+        paletteLabel: 'check',
+        icon: "alarm.png",
+        label: function() {
+            return this.name || 'check';
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="AlarmCheck">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="Allow2Check">
+    <p>Alarm.
+    <h3>Input</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+    </dl>
+    <h3>Details</h3>
+    <p>Todo.</p>
+</script>
