@@ -11,18 +11,26 @@
       "AnamicoAlarmSensor": "alarm/sensor.js"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Anamico/node-red-contrib-alarm.git"
-  },
-  "author": "",
+  "author": "Andrew",
+  "contributors": [
+    {
+      "name": "Andrew",
+      "email": "roo@roo.emu.id.au"
+    }
+  ],
   "license": "MIT",
-  "main": "index.js",
+  "dependencies": {
+    "async": "^2.6.1"
+  },
+  "keywords": [
+    "alarm",
+    "homekit",
+    "automation",
+    "sensor"
+  ],
   "bugs": {
     "url": "https://github.com/Anamico/node-red-contrib-alarm/issues"
   },
   "homepage": "https://github.com/Anamico/node-red-contrib-alarm#readme",
-  "dependencies": {
-    "async": "^2.6.1"
-  }
+  "repository": "https://github.com/Anamico/node-red-contrib-alarm"
 }
