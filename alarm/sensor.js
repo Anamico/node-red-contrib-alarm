@@ -4,7 +4,7 @@
 
 module.exports = function(RED) {
 
-    function Sensor(config) {
+    function AnamicoAlarmSensor(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -18,5 +18,5 @@ module.exports = function(RED) {
             });
         });
     }
-    RED.nodes.registerType("AnamicoAlarmSensor", Sensor);
+    RED.nodes.registerType("AnamicoAlarmSensor", AnamicoAlarmSensor);
 };

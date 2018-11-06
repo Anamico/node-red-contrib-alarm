@@ -4,7 +4,7 @@
 
 module.exports = function(RED) {
 
-    function Panel(config) {
+    function AnamicoAlarmPanel(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -12,7 +12,7 @@ module.exports = function(RED) {
             callback(true);
         };
     }
-    RED.nodes.registerType("AnamicoAlarmPanel", Panel);
+    RED.nodes.registerType("AnamicoAlarmPanel", AnamicoAlarmPanel);
 };
 
 // // only do something if we have been fed a new security state

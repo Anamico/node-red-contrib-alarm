@@ -1,6 +1,6 @@
 <script type="text/javascript">
     RED.nodes.registerType('AnamicoAlarmSensor', {
-        category: 'config',
+        category: 'alarm system',
         color: '#FFFFFF',
         defaults: {
             name: { value : "", required: true },
@@ -11,7 +11,7 @@
         inputLabels: "input",
         icon: "alarm.png",
         label: function() {
-            return this.name;
+            return this.name || "Sensor";
         },
         paletteLabel: 'Alarm Sensor'
     });
@@ -19,13 +19,13 @@
 
 <script type="text/x-red" data-template-name="AnamicoAlarmSensor">
     <div class="form-row">
-        <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-config-input-name" placeholder="Name">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
     </div>
 
     <div class="form-row">
         <label for="node-input-panel"><i class="fa fa-server"></i> Panel</label>
-        <input type="text" id="node-input-panel" placeholder="panel">
+        <input type="text" id="node-input-panel" placeholder="Panel">
     </div>
 </script>
 
