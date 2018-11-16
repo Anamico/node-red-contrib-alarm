@@ -13,7 +13,7 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
 
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
-            node._panel(function(val) {
+            node._panel.sensor(function(val) {
                 node.status({ fill:"red", shape:"dot", text:"status " + val });
             });
         });
