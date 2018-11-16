@@ -8,7 +8,9 @@
   "node-red": {
     "nodes": {
       "AnamicoAlarmPanel": "alarm/panel.js",
-      "AnamicoAlarmSensor": "alarm/sensor.js"
+      "AnamicoAlarmSensor": "alarm/sensor.js",
+      "AnamicoAlarmSendState": "alarm/sendState.js",
+      "AnamicoAlarmReceiveState": "alarm/receiveState.js"
     }
   },
   "author": "Andrew",

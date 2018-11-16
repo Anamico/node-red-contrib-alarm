@@ -1,8 +1,10 @@
 'use strict';
 
-//const async = require('async');
+const async = require('async');
 
 module.exports = function(RED) {
+
+    var stateSenders = [];
 
     function AnamicoAlarmPanel(config) {
         RED.nodes.createNode(this, config);
@@ -10,6 +12,17 @@ module.exports = function(RED) {
 
         this.sensor = function(callback) {
             callback(true);
+        };
+
+        this.registerStateSender = function(callback) {
+            stateSenders.push(callback);
+        };
+
+        this.setState = function(payload) {
+            async.parallel(stateSenders, function(stateSender, callback) {
+                stateSender(payload);
+                callback(null);
+            });
         };
     }
     RED.nodes.registerType("AnamicoAlarmPanel", AnamicoAlarmPanel);
