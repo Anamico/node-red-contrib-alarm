@@ -1,23 +1,23 @@
 <script type="text/javascript">
-    RED.nodes.registerType('AnamicoAlarmSendState', {
+    RED.nodes.registerType('AnamicoAlarmChangeState', {
         category: 'alarm system',
         color: '#FFFFFF',
         defaults: {
             name: { value : "" },
             panel: { type: 'AnamicoAlarmPanel', required: true }
         },
-        inputs: 0,
-        outputs: 1,
-        outputLabels: "new state",
-        icon: "alarm.png",
+        inputs: 1,
+        outputs: 0,
+        inputLabels: "new state",
+        icon: "changeState.png",
         label: function() {
-            return this.name || "Send State";
+            return this.name || "Change State";
         },
-        paletteLabel: 'Send State'
+        paletteLabel: 'Change State'
     });
 </script>
 
-<script type="text/x-red" data-template-name="AnamicoAlarmSendState">
+<script type="text/x-red" data-template-name="AnamicoAlarmChangeState">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -29,7 +29,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="AnamicoAlarmSendState">
-    <h3>Alarm Sensor</h3>
-    <p>Represents a single control panel, like a panel for a house.</p>
+<script type="text/x-red" data-help-name="AnamicoAlarmChangeState">
+    <h3>Alarm Control Collector</h3>
+    <p>When you need to change the alarm mode or state, send a message to this node.</p>
 </script>

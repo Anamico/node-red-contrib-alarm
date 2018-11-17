@@ -4,7 +4,7 @@
 
 module.exports = function(RED) {
 
-    function AnamicoAlarmReceiveState(config) {
+    function AnamicoAlarmChangeState(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -12,11 +12,12 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
 
+            node.log(node);
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
-            node._panel.setState(function(val) {
+            node._panel.setState(msg, function(val) {
                 node.status({ fill:"red", shape:"dot", text:"status " + val });
             });
         });
     }
-    RED.nodes.registerType("AnamicoAlarmReceiveState", AnamicoAlarmReceiveState);
+    RED.nodes.registerType("AnamicoAlarmChangeState", AnamicoAlarmChangeState);
 };

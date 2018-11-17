@@ -9,8 +9,8 @@
     "nodes": {
       "AnamicoAlarmPanel": "alarm/panel.js",
       "AnamicoAlarmSensor": "alarm/sensor.js",
-      "AnamicoAlarmSendState": "alarm/sendState.js",
-      "AnamicoAlarmReceiveState": "alarm/receiveState.js"
+      "AnamicoAlarmStateChanged": "alarm/stateChanged.js",
+      "AnamicoAlarmChangeState": "alarm/changeState.js"
     }
   },
   "author": "Andrew",
