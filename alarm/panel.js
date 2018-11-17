@@ -95,7 +95,7 @@ module.exports = function(RED) {
             }
             node.log(JSON.stringify(msg,null,2));
 
-            async.parallel(stateListeners, function(stateListener, callback) {
+            async.parallel(Object.values(stateListeners), function(stateListener, callback) {
                 stateListener(msg);
                 callback(null);
             });
