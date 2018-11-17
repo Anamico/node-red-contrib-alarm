@@ -39,12 +39,12 @@ module.exports = function(RED) {
          * @param callback
          */
         this.sensor = function(msg, callback) {
-            if (!msg.payload || msg.payload.zone) {
+            if (!msg.payload || !msg.payload.zone) {
                 node.error("missing payload.zone", msg);
                 callback(false);
                 return false;
             }
-            if (!msg.payload || msg.payload.modes) {
+            if (!msg.payload || !msg.payload.modes) {
                 node.error("missing payload.modes", msg);
                 callback(false);
                 return false;
@@ -60,6 +60,12 @@ module.exports = function(RED) {
             callback(true); // alarm triggered
         };
 
+        /**
+         * Register a listener node to receive updates when the alarm state changes
+         *
+         * @param node
+         * @param callback
+         */
         this.registerStateListener = function(node, callback) {
             stateListeners[node.id] = callback;
 
@@ -83,6 +89,11 @@ module.exports = function(RED) {
             }, 100);
         };
 
+        /**
+         * Deregister an alarm state change listener
+         *
+         * @param node
+         */
         this.deregisterStateListener = function(node) {
             node.log('deregister: ' + node.id);
             delete stateListeners[node.id];
@@ -104,6 +115,13 @@ module.exports = function(RED) {
             });
         };
 
+        /**
+         * In response to a state change request, we do some checks and validations, and if OK, then we update the alarm panel state
+         * The state is persisted based on persistance of the global state.
+         *
+         * @param msg
+         * @param callback
+         */
         this.setState = function(msg, callback) {
 
             // only do something if we have been fed a new security state

@@ -15,9 +15,13 @@
         <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
         <input type="text" id="node-config-input-name">
     </div>
+    <div class="form-tips">Tip: don't forget to turn on persistence for global state, or when you restart node-red it will reset alarm state to "Home" every time.</div>
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmPanel">
     <p>Alarm Config Node</p>
-    <p>Represents a single control panel, like a panel for a house.</p>
+    <p>Represents a single control panel, like a panel (or zone) for a house.</p>
+    <p>If you want to have multiple 'zones', then create a panel for each one and they can be armed/disarmed independently.</p>
+    <p>Inputs can be sent to multiple zones, so if you have a shared motion detector for 2 zones for instance, it will alarm
+        for either or both zones depending on which zones are armed at the time</p>
 </script>
