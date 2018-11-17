@@ -4,7 +4,8 @@
         color: '#FFFFFF',
         defaults: {
             name: { value : "", required: true },
-            panel: { type: 'AnamicoAlarmPanel', required: true }
+            panel: { type: 'AnamicoAlarmPanel', required: true },
+            alarmStates: { value : "1", required: true, validate:RED.validators.regex(/.{1,}/) }
         },
         inputs: 1,
         outputs: 0,
@@ -26,6 +27,16 @@
     <div class="form-row">
         <label for="node-input-panel"><i class="fa fa-server"></i> Panel</label>
         <input type="text" id="node-input-panel" placeholder="Panel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-alarmStates"><i class="fa fa-server"></i> Modes</label>
+        <select id="node-input-alarmStates" size="4" multiple="true">
+            <option value="0">Home</option>
+            <option value="1">Away</option>
+            <option value="2">Night</option>
+            <option value="3">Off</option>
+        </select>
     </div>
 </script>
 

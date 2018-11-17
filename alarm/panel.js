@@ -12,6 +12,9 @@ module.exports = function(RED) {
 
         this.alarmModes = [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ];
 
+        // these nodes are in alarm state
+        this.alarmNodes = new Set();
+
         this.alarmState = node.context().global.get('SecuritySystemCurrentState') || 0;
         this.alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
         this.isAlarm = node.alarmState === 4;
@@ -27,8 +30,32 @@ module.exports = function(RED) {
             node.context().global.set('SecuritySystemAlarmType', alarmType);
         };
 
-        this.sensor = function(callback) {
-            callback(true);
+        /**
+         * Conditionally trigger an alarm
+         *
+         * todo: persist alarm state and zone/etc with handle to node so we can update alarm state on panel mode changes
+         *
+         * @param msg
+         * @param callback
+         * @returns {boolean}
+         */
+        this.sensor = function(msg, callback) {
+            if (!msg.payload || msg.payload.zone) {
+                node.error("missing payload.zone", msg);
+                callback(false);
+                return false;
+            }
+            if (!msg.payload || msg.payload.modes) {
+                node.error("missing payload.modes", msg);
+                callback(false);
+                return false;
+            }
+            if (msg.payload.modes.indexOf(node.alarmState) < 0) {
+                callback(false);
+                return;
+            }
+            node.setState(msg);
+            callback(true); // alarm triggered
         };
 
         this.registerStateListener = function(node, callback) {
@@ -36,12 +63,18 @@ module.exports = function(RED) {
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
+                const alarmState = node.context().global.get('SecuritySystemCurrentState') || 0;
+                const alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
+                const isAlarm = alarmState === 4;
+                node.log(alarmState);
+                node.log(alarmType);
+                node.log(isAlarm);
                 callback({
                     payload: {
                         //SecuritySystemTargetState: localState,
-                        SecuritySystemCurrentState: node.alarmState,
-                        alarmState: node.alarmModes[node.alarmState],
-                        SecuritySystemAlarmType: node.alarmType,
+                        SecuritySystemCurrentState: alarmState,
+                        alarmState: [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ][alarmState],
+                        SecuritySystemAlarmType: alarmType,
                         isAlarm: node.isAlarm
                     }
                 });
