@@ -28,7 +28,7 @@ module.exports = function(RED) {
             node.status({
                 fill: node._panel.isAlarm ? "red" : "green",
                 shape:"dot",
-                text:"state: " + node._panel.alarmModes[node._panel.alarmState]
+                text:node._panel.alarmModes[node._panel.alarmState]
             });
 
             node.send(msg);

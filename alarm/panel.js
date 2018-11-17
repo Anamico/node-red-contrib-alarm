@@ -37,7 +37,6 @@ module.exports = function(RED) {
          *
          * @param msg
          * @param callback
-         * @returns {boolean}
          */
         this.sensor = function(msg, callback) {
             if (!msg.payload || msg.payload.zone) {
@@ -50,6 +49,9 @@ module.exports = function(RED) {
                 callback(false);
                 return false;
             }
+            node.log('1');
+            node.log(msg.payload.modes);
+            node.log(msg.payload.modes.indexOf(node.alarmState));
             if (msg.payload.modes.indexOf(node.alarmState) < 0) {
                 callback(false);
                 return;
@@ -66,9 +68,9 @@ module.exports = function(RED) {
                 const alarmState = node.context().global.get('SecuritySystemCurrentState') || 0;
                 const alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
                 const isAlarm = alarmState === 4;
-                node.log(alarmState);
-                node.log(alarmType);
-                node.log(isAlarm);
+                // node.log(alarmState);
+                // node.log(alarmType);
+                // node.log(isAlarm);
                 callback({
                     payload: {
                         //SecuritySystemTargetState: localState,
@@ -94,9 +96,10 @@ module.exports = function(RED) {
                 node.log("local");
             }
             node.log(JSON.stringify(msg,null,2));
+            node.log(JSON.stringify(stateListeners,null,2));
 
-            async.parallel(Object.values(stateListeners), function(stateListener, callback) {
-                stateListener(msg);
+            async.each(stateListeners, function(listener, callback) {
+                listener(msg);
                 callback(null);
             });
         };
@@ -104,6 +107,7 @@ module.exports = function(RED) {
         this.setState = function(msg, callback) {
 
             // only do something if we have been fed a new security state
+            node.log('setState');
             node.log(JSON.stringify(msg,null,2));
 
             if (!msg.payload) {

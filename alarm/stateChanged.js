@@ -14,10 +14,14 @@ module.exports = function(RED) {
          * listen for panel state changes
          */
         this._panel.registerStateListener(this, function(msg) {
+
+            node.log("new State");
+            node.log(msg);
+
             node.status({
                 fill: node._panel.isAlarm ? "red" : "green",
                 shape:"dot",
-                text:"state: " + node._panel.alarmModes[node._panel.alarmState]
+                text:node._panel.alarmModes[node._panel.alarmState]
             });
 
             node.send(msg);

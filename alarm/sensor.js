@@ -19,8 +19,10 @@ module.exports = function(RED) {
 
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
 
-            msg.payload.zone = "test";
-            msg.payload.modes = node.alarmStates;
+            msg.payload = {
+                zone: "test",
+                modes: node.alarmStates
+            };
 
             if (node.resetTimer) {
                 clearTimeout(node.resetTimer);
@@ -28,9 +30,10 @@ module.exports = function(RED) {
             node.resetTimer = setTimeout(function() {
                 node.status({});
                 // todo: allow for momentary and fixed (motion vs nc/no)
-            }, 1000);
+            }, 3000);
 
             node._panel.sensor(msg, function(triggered) {
+                node.log('triggered: ' + triggered);
                 if (triggered) {
                     if (node.resetTimer) {
                         clearTimeout(node.resetTimer);
