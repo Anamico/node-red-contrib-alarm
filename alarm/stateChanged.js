@@ -10,8 +10,10 @@ module.exports = function(RED) {
 
         this._panel = RED.nodes.getNode(config.panel);
 
-        this._panel.registerStateSender(function(msg) {
-
+        /**
+         * listen for panel state changes
+         */
+        this._panel.registerStateListener(this, function(msg) {
             node.status({
                 fill: node._panel.isAlarm ? "red" : "green",
                 shape:"dot",
@@ -19,6 +21,13 @@ module.exports = function(RED) {
             });
 
             node.send(msg);
+        });
+
+        /**
+         * clean up on node removal
+         */
+        node.on('close', function() {
+            node._panel.deregisterStateListener(node);
         });
     }
     RED.nodes.registerType("AnamicoAlarmStateChanged", AnamicoAlarmStateChanged);

@@ -4,7 +4,7 @@ const async = require('async');
 
 module.exports = function(RED) {
 
-    var stateSenders = [];
+    var stateListeners = {};
 
     function AnamicoAlarmPanel(config) {
         RED.nodes.createNode(this, config);
@@ -16,10 +16,10 @@ module.exports = function(RED) {
         this.alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
         this.isAlarm = node.alarmState === 4;
 
-        this.setState = function(state) {
-            node.alarmState = state;
-            node.isAlarm = state === 4;
-            node.context().global.set('SecuritySystemCurrentState', state);
+        this.setAlarmState = function(alarmState) {
+            node.alarmState = alarmState;
+            node.isAlarm = alarmState === 4;
+            node.context().global.set('SecuritySystemCurrentState', alarmState);
         };
 
         this.setAlarmType = function(alarmType) {
@@ -31,8 +31,8 @@ module.exports = function(RED) {
             callback(true);
         };
 
-        this.registerStateSender = function(callback) {
-            stateSenders.push(callback);
+        this.registerStateListener = function(node, callback) {
+            stateListeners[node.id] = callback;
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
@@ -40,14 +40,20 @@ module.exports = function(RED) {
                     payload: {
                         //SecuritySystemTargetState: localState,
                         SecuritySystemCurrentState: node.alarmState,
-                        SecuritySystemAlarmType: node.alarmType
+                        alarmState: node.alarmModes[node.alarmState],
+                        SecuritySystemAlarmType: node.alarmType,
+                        isAlarm: node.isAlarm
                     }
                 });
             }, 100);
         };
 
-        this.notifyChange = function (msg, fromHomekit) {
+        this.deregisterStateListener = function(node) {
+            node.log('deregister: ' + node.id);
+            delete stateListeners[node.id];
+        };
 
+        this.notifyChange = function (msg, fromHomekit) {
             if (fromHomekit) {
                 node.log("from homekit");
                 msg.payload.fromHomekit = true;
@@ -56,19 +62,23 @@ module.exports = function(RED) {
             }
             node.log(JSON.stringify(msg,null,2));
 
-            async.parallel(stateSenders, function(stateSender, callback) {
-                stateSender(msg);
+            async.parallel(stateListeners, function(stateListener, callback) {
+                stateListener(msg);
                 callback(null);
             });
         };
 
-        this.setState = function(msg) {
+        this.setState = function(msg, callback) {
 
             // only do something if we have been fed a new security state
             node.log(JSON.stringify(msg,null,2));
 
             if (!msg.payload) {
                 node.error('invalid payload', msg);
+                callback({
+                    error: true,
+                    label: "invalid payload"
+                });
                 return;
             }
 
@@ -82,6 +92,10 @@ module.exports = function(RED) {
             if (msg.payload.zone) {
                 if (msg.payload.modes.indexOf(node.alarmState) < 0) {
                     node.log('no alarm');
+                    callback({
+                        error: true,
+                        label: "no alarm"
+                    });
                     return
                 }
                 node.log('Alarm: ');
@@ -95,6 +109,10 @@ module.exports = function(RED) {
 
             if ((newState === undefined) && (newAlarmType === undefined)) {
                 node.error('invalid payload', msg);
+                callback({
+                    error: true,
+                    label: "invalid payload"
+                });
                 return;
             }
 
@@ -106,26 +124,34 @@ module.exports = function(RED) {
             const changed = (node.alarmState === undefined) || (node.alarmState != newState) || (node.alarmType === undefined)|| alarmChanged;
             if (!changed) {
                 node.log('no change');
+                callback({
+                    label: node.alarmModes[node.alarmState]
+                });
                 return;
             }
 
 // persist the new state
-            node.setState(newState !== undefined ? newState : node.alarmState);
+            node.setAlarmState(newState !== undefined ? newState : node.alarmState);
             node.setAlarmType(alarmType);
-
-            const fromHomekit = msg.hap && msg.hap.context && (targetState !== undefined);
-            delete msg.hap;
 
             msg.payload = {
                 //SecuritySystemTargetState: global.SecuritySystemCurrentState,
-                SecuritySystemCurrentState: node.alarmState
+                SecuritySystemCurrentState: node.alarmState,
+                alarmState: node.alarmModes[node.alarmState]
             };
+            msg.payload.isAlarm = node.isAlarm;
 
             if (alarmChanged) {
                 msg.payload.SecuritySystemAlarmType = node.alarmType;
             }
 
+            const fromHomekit = msg.hap && msg.hap.context && (targetState !== undefined);
+            delete msg.hap;
+
             node.notifyChange(msg, fromHomekit);
+            callback({
+                label: node.alarmModes[node.alarmState]
+            });
         };
     }
     RED.nodes.registerType("AnamicoAlarmPanel", AnamicoAlarmPanel);
