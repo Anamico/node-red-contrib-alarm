@@ -15,6 +15,25 @@ module.exports = function(RED) {
         /**
          * handle inputs
          */
+        /* Here's an example payload from homekit
+            {
+                "payload":{
+                    "SecuritySystemTargetState":1
+                },
+                "hap":{
+                    "oldValue":0,
+                    "newValue":1,
+                    "context":{                 <-- this is absent if it's echoing an incoming message
+                        "keepalive":true,
+                        "2.10":true,
+                        "2.11":true
+                    },
+                    "characteristic":blah blah blah
+                },
+                "name":"Alarm",
+                "_msgid":"8044bfc.f837b4"
+            }
+         */
         node.on('input', function(msg) {
             node.log(node);
 

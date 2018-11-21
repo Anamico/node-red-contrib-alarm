@@ -4,12 +4,11 @@ const async = require('async');
 
 module.exports = function(RED) {
 
-    var stateListeners = {};
-
     function AnamicoAlarmPanel(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
+        this.stateListeners = {};
         this.alarmModes = [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ];
 
         // these nodes are in alarm state
@@ -67,7 +66,7 @@ module.exports = function(RED) {
          * @param callback
          */
         this.registerStateListener = function(node, callback) {
-            stateListeners[node.id] = callback;
+            node.stateListeners[node.id] = callback;
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
@@ -96,7 +95,7 @@ module.exports = function(RED) {
          */
         this.deregisterStateListener = function(node) {
             node.log('deregister: ' + node.id);
-            delete stateListeners[node.id];
+            delete node.stateListeners[node.id];
         };
 
         this.notifyChange = function (msg, fromHomekit) {
@@ -107,9 +106,9 @@ module.exports = function(RED) {
                 node.log("local");
             }
             node.log(JSON.stringify(msg,null,2));
-            node.log(JSON.stringify(stateListeners,null,2));
+            node.log(JSON.stringify(node.stateListeners,null,2));
 
-            async.each(stateListeners, function(listener, callback) {
+            async.each(node.stateListeners, function(listener, callback) {
                 listener(msg);
                 callback(null);
             });
