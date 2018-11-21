@@ -28,9 +28,9 @@ module.exports = function(RED) {
             if (node.toHomekit && msg.payload) {
                 const oldPayload = msg.payload;
                 msg.payload = {};
-                if (oldPayload.SecuritySystemTargetState) { msg.payload.SecuritySystemTargetState = oldPayload.SecuritySystemTargetState; }
-                if (oldPayload.SecuritySystemCurrentState) { msg.payload.SecuritySystemCurrentState = oldPayload.SecuritySystemCurrentState; }
-                if (oldPayload.SecuritySystemAlarmType) { msg.payload.SecuritySystemAlarmType = oldPayload.SecuritySystemAlarmType; }
+                if (typeof oldPayload.SecuritySystemTargetState !== "undefined") { msg.payload.SecuritySystemTargetState = oldPayload.SecuritySystemTargetState; }
+                if (typeof oldPayload.SecuritySystemCurrentState !== "undefined") { msg.payload.SecuritySystemCurrentState = oldPayload.SecuritySystemCurrentState; }
+                if (typeof oldPayload.SecuritySystemAlarmType !== "undefined") { msg.payload.SecuritySystemAlarmType = oldPayload.SecuritySystemAlarmType; }
             }
 
             node.send(msg);
