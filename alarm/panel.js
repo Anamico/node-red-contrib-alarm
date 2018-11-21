@@ -14,19 +14,19 @@ module.exports = function(RED) {
         // these nodes are in alarm state
         this.alarmNodes = new Set();
 
-        this.alarmState = node.context().global.get('SecuritySystemCurrentState') || 0;
-        this.alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
+        this.alarmState = node.context().global.get('SecuritySystemCurrentState' + node.id) || 0;
+        this.alarmType = node.context().global.get('SecuritySystemAlarmType' + node.id) || 0;
         this.isAlarm = node.alarmState === 4;
 
         this.setAlarmState = function(alarmState) {
             node.alarmState = alarmState;
             node.isAlarm = alarmState === 4;
-            node.context().global.set('SecuritySystemCurrentState', alarmState);
+            node.context().global.set('SecuritySystemCurrentState' + node.id, alarmState);
         };
 
         this.setAlarmType = function(alarmType) {
             this.alarmType = alarmType;
-            node.context().global.set('SecuritySystemAlarmType', alarmType);
+            node.context().global.set('SecuritySystemAlarmType' + node.id, alarmType);
         };
 
         /**
@@ -48,9 +48,8 @@ module.exports = function(RED) {
                 callback(false);
                 return false;
             }
-            node.log('1');
-            node.log(msg.payload.modes);
-            node.log(msg.payload.modes.indexOf(node.alarmState));
+            // node.log(msg.payload.modes);
+            // node.log(msg.payload.modes.indexOf(node.alarmState));
             if (msg.payload.modes.indexOf(node.alarmState) < 0) {
                 callback(false);
                 return;
@@ -70,8 +69,8 @@ module.exports = function(RED) {
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
-                const alarmState = node.context().global.get('SecuritySystemCurrentState') || 0;
-                const alarmType = node.context().global.get('SecuritySystemAlarmType') || 0;
+                const alarmState = node.context().global.get('SecuritySystemCurrentState' + node.id) || 0;
+                const alarmType = node.context().global.get('SecuritySystemAlarmType' + node.id) || 0;
                 const isAlarm = alarmState === 4;
                 // node.log(alarmState);
                 // node.log(alarmType);
