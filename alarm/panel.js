@@ -8,11 +8,14 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        this.stateListeners = {};
+        node.stateListeners = {};
         this.alarmModes = [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ];
 
         // these nodes are in alarm state
         this.alarmNodes = new Set();
+
+        console.log('node id ', node.id);
+        console.log('SecuritySystemCurrentState' + node.id);
 
         this.alarmState = node.context().global.get('SecuritySystemCurrentState' + node.id) || 0;
         this.alarmType = node.context().global.get('SecuritySystemAlarmType' + node.id) || 0;
