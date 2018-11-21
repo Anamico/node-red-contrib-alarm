@@ -69,7 +69,7 @@ module.exports = function(RED) {
          * @param callback
          */
         this.registerStateListener = function(listenerNode, callback) {
-            node.stateListeners[node.id] = callback;
+            node.stateListeners[listenerNode.id] = callback;
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
@@ -96,9 +96,9 @@ module.exports = function(RED) {
          *
          * @param node
          */
-        this.deregisterStateListener = function(node) {
-            node.log('deregister: ' + node.id);
-            delete node.stateListeners[node.id];
+        this.deregisterStateListener = function(listenerNode) {
+            node.log('deregister: ' + listenerNode.id);
+            delete node.stateListeners[listenerNode.id];
         };
 
         this.notifyChange = function (msg, fromHomekit) {
@@ -108,8 +108,8 @@ module.exports = function(RED) {
             } else {
                 node.log("local");
             }
-            node.log(JSON.stringify(msg,null,2));
-            node.log(JSON.stringify(node.stateListeners,null,2));
+            // node.log(JSON.stringify(msg,null,2));
+            // node.log(JSON.stringify(node.stateListeners,null,2));
 
             async.each(node.stateListeners, function(listener, callback) {
                 listener(msg);
@@ -181,13 +181,13 @@ module.exports = function(RED) {
             }
             const alarmChanged = (node.alarmType != alarmType);
             const changed = (node.alarmState === undefined) || (node.alarmState != newState) || (node.alarmType === undefined)|| alarmChanged;
-            if (!changed) {
-                node.log('no change');
-                callback({
-                    label: node.alarmModes[node.alarmState]
-                });
-                return;
-            }
+            // if (!changed) {
+            //     node.log('no change');
+            //     callback({
+            //         label: node.alarmModes[node.alarmState]
+            //     });
+            //     return;
+            // }
 
 // persist the new state
             node.setAlarmState(newState !== undefined ? newState : node.alarmState);
