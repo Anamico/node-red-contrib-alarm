@@ -14,9 +14,9 @@ module.exports = function(RED) {
         // these nodes are in alarm state
         this.alarmNodes = new Set();
 
-        this.nodeId = node.id.replace(/\./g, '_');
-        console.log('node id ', node.id);
-        console.log('SecuritySystemCurrentState' + node.id);
+        node.nodeId = node.id.replace(/\./g, '_');
+        console.log('node id ', node.nodeId);
+        console.log('SecuritySystemCurrentState_' + node.nodeId);
 
         this.alarmState = node.context().global.get('SecuritySystemCurrentState_' + node.nodeId) || 0;
         this.alarmType = node.context().global.get('SecuritySystemAlarmType_' + node.nodeId) || 0;
@@ -68,7 +68,7 @@ module.exports = function(RED) {
          * @param node
          * @param callback
          */
-        this.registerStateListener = function(node, callback) {
+        this.registerStateListener = function(listenerNode, callback) {
             node.stateListeners[node.id] = callback;
 
             // also emit current state on registration (after delay of 100 msec?):
