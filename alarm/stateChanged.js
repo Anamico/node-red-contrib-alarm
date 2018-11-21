@@ -8,6 +8,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
+        this.toHomekit = config.toHomekit || 0 == 1;
         this._panel = RED.nodes.getNode(config.panel);
 
         /**
@@ -16,13 +17,21 @@ module.exports = function(RED) {
         this._panel.registerStateListener(this, function(msg) {
 
             node.log("new State");
-            node.log(msg);
+            node.log(JSON.stringify(msg, null, 2));
 
             node.status({
                 fill: node._panel.isAlarm ? "red" : "green",
                 shape:"dot",
                 text:node._panel.alarmModes[node._panel.alarmState]
             });
+
+            if (node.toHomekit && msg.payload) {
+                const oldPayload = msg.payload;
+                msg.payload = {};
+                if (oldPayload.SecuritySystemTargetState) { msg.payload.SecuritySystemTargetState = oldPayload.SecuritySystemTargetState; }
+                if (oldPayload.SecuritySystemCurrentState) { msg.payload.SecuritySystemCurrentState = oldPayload.SecuritySystemCurrentState; }
+                if (oldPayload.SecuritySystemAlarmType) { msg.payload.SecuritySystemAlarmType = oldPayload.SecuritySystemAlarmType; }
+            }
 
             node.send(msg);
         });

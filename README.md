@@ -2,6 +2,8 @@
 Powerful and flexible node-red nodes to enable you to build your own home alarm system with any number of panels, zones, sensors, triggers and automations.
 Designed to work easily with (but does not require) homekit.
 
+![Homekit Bridge Alarm Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/alarm.png "Homekit Bridge Alarm Example")
+
 The three node types currently provided are:
 1. Alarm Panel (Configuration node)
 2. ChangeState node
@@ -30,15 +32,20 @@ This node emits a message when the alarm system changes state, such as switching
 
 The current state will be in msg.payload.SecuritySystemCurrentState and follows the HomeKit Alarm state conventions (same document as above).
 
-
 WARNING: There is NO infinite loop detection right now! So MAKE SURE if you create ANY path from a "StateChanged" to a "ChangeState" node, that you MUST
 ensure the loop is not permanent or you will burn up cpu! A good enhancement would be perhaps to build in a "keepalive" countdown for 2 iterations or something to
 auto-kill a message stuck in a loop if anyone wants to take that on.
+
+![Automation Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/automation.png "Automation Example")
+
+You can use this node to both set the state in the homekit alarm system or the dashboard controls, or for any automation in response to a panel state change.
 
 ## Sensor
 
 A sensor is an input to the alarm panel that you configure with one or more active "modes". ie: a laundry door may be "Armed" in "Away" and "Night" modes.
 But a hall motion sensor may only be armed in "Away" mode.
+
+![Sensor Examples](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/sensors.png "Sensor Examples")
 
 If a sensor receives ANY message at all, it will trigger an alarm IF the alarm panel it is associated with is in a mode that you have nominated as an "Active" alarm mode
 in the sensor node configuration.
@@ -47,6 +54,8 @@ in the sensor node configuration.
 
 A basic configuration to work with HomeKit would be to use a HomeKit Bridge node between a "StateChanged" and a "ChangeState" node.
 
+![Homekit Bridge Alarm Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/alarm.png "Homekit Bridge Alarm Example")
+
 ie: If you create a Homekit Security System, it appears on your phone as an alarm system. When you use homekit to set the alarm to "Away" the
 homekit bridge node will emit a message with the payload for "Away" = 1. The "ChangeState" node processes that new state and sets your node-red panel to "Away".
 It will also emit that state as the new CurrentState to all "StateChanged" nodes, so you can set a dashboard, trigger another automation or whatever.
@@ -54,9 +63,12 @@ It will also emit that state as the new CurrentState to all "StateChanged" nodes
 Note that the "StateChanged", "ChangeState" and "Sensor" nodes can be all on different flows and subflows and you can have any number of each type of node.
 This offers ultimate flexibility in the way you configure your node-red alarm system.
 
-Similarly, you could put a node-red dashboard dropdown selector in-line between another (or the same) "StateChanged" and "ChangeState" nodes.
+Similarly, you could put a node-red dashboard dropdown selector in-line between another set of "StateChanged" and "ChangeState" nodes.
+
+![Dashboard Control Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/dashboard.png "Dashboard Control Example")
+
 So if you had both set up, then changing the mode on your iPhone or Mac Homekit client, will update the "panel" state in node-red and emit that new state to anything
-attached to a "StateChanged" node. So your dashboard dropdown would update to the same state.
+attached to a "StateChanged" node. So your dashboard dropdown would update to the same state. NOTE: Make sure you do NOT pass-through the incoming message to the output on the dashboard drop-down element. It may create an endless loop.
 
 So you could use a button, your Homekit client AND a dashboard widget all to arm and disarm the alarm panel, it's that powerful and completely up to you.
 

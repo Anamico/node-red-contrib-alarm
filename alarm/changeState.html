@@ -4,7 +4,8 @@
         color: '#FFFFFF',
         defaults: {
             name: { value : "" },
-            panel: { type: 'AnamicoAlarmPanel', required: true }
+            panel: { type: 'AnamicoAlarmPanel', required: true },
+            fromHomekit: { value : 0, required : true }
         },
         inputs: 1,
         outputs: 0,
@@ -27,10 +28,27 @@
         <label for="node-input-panel"><i class="fa fa-server"></i> Panel</label>
         <input type="text" id="node-input-panel" placeholder="Panel">
     </div>
+
     <div class="form-tips">Tip: create a single 'panel' to basically be a single property or "zone", then attach everything associated with that property or zone to that panel.</div>
+
+    <div class="form-row"> &nbsp;</div>
+    <div class="form-row">
+        <label for="node-input-fromHomekit"><i class="fa fa-home"></i> Homekit</label>
+        <input type="checkbox" id="node-input-fromHomekit" value=1>
+    </div>
+
+    <div class="form-tips">Tip: Set this "From Homekit" if this node is receiving messages from a homekit alarm,
+        it is necessary to filter out messages NOT sent by the homekit device..</div>
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmChangeState">
     <h3>Alarm Control Collector</h3>
     <p>When you need to change the alarm mode or state, send a message to this node.</p>
+    <p>IMPORTANT: This node can receive from multiple sources, BUT do NOT mix Homekit bridge Security System nodes and other nodes.</p>
+    <p>If receiving from a homekit bridge security system node, select the "Homekit" checkbox. This is REQUIRED. If you don't do this, the node will auto-shutdown the first time it
+       receives a message from a homekit device. This is because it's expecting to NOT receive a homekit device message and doing so breaks functionality. Essentially, when
+       homekit receives a message, it will echo it on the output, so we need to say it's coming from a homekit device to be able to determine if it's an instruction or an echo and
+       handle it appropriately.</p>
+    <p>If NOT receiving from a homekit bridge security system node, then make sure you DON'T set this option, it will essentially drop all traffic as it appears it's not an instruction
+       from homekit.</p>
 </script>

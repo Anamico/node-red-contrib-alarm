@@ -4,7 +4,8 @@
         color: '#FFFFFF',
         defaults: {
             name: { value : "" },
-            panel: { type: 'AnamicoAlarmPanel', required: true }
+            panel: { type: 'AnamicoAlarmPanel', required: true },
+            toHomekit: { value : 1, required : true }
         },
         inputs: 0,
         outputs: 1,
@@ -28,9 +29,23 @@
         <input type="text" id="node-input-panel" placeholder="Panel">
     </div>
     <div class="form-tips">Tip: create a single 'panel' to basically be a single property or "zone", then attach everything associated with that property or zone to that panel.</div>
+
+    <div class="form-row"> &nbsp;</div>
+    <div class="form-row">
+        <label for="node-input-toHomekit"><i class="fa fa-home"></i> Homekit</label>
+        <input type="checkbox" id="node-input-toHomekit" value=1>
+    </div>
+
+    <div class="form-tips">Tip: Select "Homekit" if this node is sending messages to a homekit alarm,
+        otherwise the alarm will error out as we send other attributes in the payload it cannot understand.</div>
+
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmStateChanged">
     <h3>State Change Trigger</h3>
     <p>When the alarm panel changes state, this node emits a state change message.</p>
+    <p>The <b>Homekit</b> setting is supplied ONLY for sending messages to a Homekit Bridge alarm device. It is also required if that is the case.
+        It filters out additional payload content to ensure the payload sent to the homekit bridge is compatible with the attributes that device expects,
+        otherwise the homekit bridge device will error out.</p>
+    <p>So IF sending to a homekit bridge security system, select that option, in all other cases make sure it is not selected.</p>
 </script>

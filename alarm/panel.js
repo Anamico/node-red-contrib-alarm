@@ -124,6 +124,8 @@ module.exports = function(RED) {
          */
         this.setState = function(msg, callback) {
 
+            const fromHomekit = (msg.payload && msg.payload.fromHomekit) || false;
+
             // only do something if we have been fed a new security state
             node.log('setState');
             node.log(JSON.stringify(msg,null,2));
@@ -199,9 +201,6 @@ module.exports = function(RED) {
             if (alarmChanged) {
                 msg.payload.SecuritySystemAlarmType = node.alarmType;
             }
-
-            const fromHomekit = msg.hap && msg.hap.context && (targetState !== undefined);
-            delete msg.hap;
 
             node.notifyChange(msg, fromHomekit);
             callback({
