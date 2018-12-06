@@ -5,7 +5,7 @@
         defaults: {
             name: { value : "" },
             panel: { type: 'AnamicoAlarmPanel', required: true },
-            fromHomekit: { value : 0, required : true }
+            format: { value : '0', required : true }
         },
         inputs: 1,
         outputs: 0,
@@ -33,11 +33,15 @@
 
     <div class="form-row"> &nbsp;</div>
     <div class="form-row">
-        <label for="node-input-fromHomekit"><i class="fa fa-home"></i> Homekit</label>
-        <input type="checkbox" id="node-input-fromHomekit" value=1>
+        <label for="node-input-format"><i class="fa fa-cog"></i> Format</label>
+        <select id="node-input-format">
+            <option value='0'>Default</option>
+            <option value='1'>Homekit</option>
+            <option value='2'>Value</option>
+        </select>
     </div>
 
-    <div class="form-tips">Tip: Set this "From Homekit" if this node is receiving messages from a homekit alarm,
+    <div class="form-tips">Tip: Set the "Homekit" format if this node is receiving messages from a homekit alarm,
         it is necessary to filter out messages NOT sent by the homekit device..</div>
 </script>
 
@@ -51,4 +55,6 @@
        handle it appropriately.</p>
     <p>If NOT receiving from a homekit bridge security system node, then make sure you DON'T set this option, it will essentially drop all traffic as it appears it's not an instruction
        from homekit.</p>
+    <p>The <b>Value</b> format setting expects a payload simply containing a single value from 0 to 4 to indicate desired alarm mode.</p>
+    <p>The <b>Default</b> format accepts a payload with a number of attributes.</p>
 </script>

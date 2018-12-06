@@ -10,6 +10,14 @@ The three node types currently provided are:
 3. StateChanged node
 4. Sensor node
 
+## Breaking Change!
+
+NOTE: Once you upgrade, you need to update all "Change State" and "State Changed" nodes configurations to select a "Format" from 1 of 3 values.
+
+Default - Basic payload
+Homekit - Special mode for working with HomeBridge Alarm Nodes
+Value - A new mode that essentially just sets or accepts a single 0 to 4 value as the payload. This was introduced to work directly with Dashboard and a few other node-red nodes.
+
 ## AlarmPanel
 
 Create an alarmPanel configuration node to tie together states and sensors for a property or zone. So for a simple house with just arming and disarming, create a single panel.

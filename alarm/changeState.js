@@ -1,6 +1,10 @@
 'use strict';
 
-//const async = require('async');
+const Formats = {
+    default:    0,
+    homekit:    1,
+    value:      2
+};
 
 module.exports = function(RED) {
 
@@ -9,7 +13,7 @@ module.exports = function(RED) {
         var node = this;
 
         this.configError = false;
-        this.fromHomekit = config.fromHomekit || 0 == 1;
+        this.format = parseInt(config.format || '0');
         this._panel = RED.nodes.getNode(config.panel);
 
         /**
@@ -39,7 +43,7 @@ module.exports = function(RED) {
 
             if (this.configError) { return; }  // ignore everything if in error state, can only redeploy to fix this state
             // error if not in homekit mode and we get a homekit message
-            if (!this.fromHomekit && msg.hap && msg.hap.context) {
+            if (( node.format != Formats.homekit ) && msg.hap && msg.hap.context) {
                 node.error('homekit message received when not in homekit mode', msg);
                 node.status({ fill: "red", shape: "dot", text: "homekit message received" });
                 this.configError = true;
@@ -47,7 +51,7 @@ module.exports = function(RED) {
             }
 
             // silently ignore non-homekit messages (if we are expecting homekit) to avoid loops
-            if (this.fromHomekit && !(msg.hap && msg.hap.context)) {
+            if (( node.format == Formats.homekit ) && !(msg.hap && msg.hap.context)) {
                 return
             }
             delete msg.hap; // make sure we remove "hap" details to avoid future problems down the track.
@@ -58,11 +62,18 @@ module.exports = function(RED) {
                 return
             }
 
-            msg.payload.fromHomekit = true;
+            if ( node.format == Formats.value) {    // raw value mode, the incoming value is the desired alarm state
+                msg.payload = {
+                    SecuritySystemTargetState: msg.payload,
+                    SecuritySystemCurrentState: msg.payload
+                };
+            }
+
+            msg.payload.fromHomekit = ( node.format == Formats.homekit);
 
             node.status({ fill: "blue", shape:"dot", text: "updating panel..." });
             node._panel.setState(msg, function(result) {
-                node.status({ fill: result.error ? "red" : "green", shape: "dot", text: result.label });
+                node.status({ fill: result.error || node._panel.isAlarm ? "red" : "green", shape: "dot", text: result.label });
             });
         });
 
