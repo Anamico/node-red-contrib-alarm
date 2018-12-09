@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    RED.nodes.registerType('AnamicoAlarmTriggered', {
+        category: 'alarm system',
+        color: '#FFFFFF',
+        defaults: {
+            name: { value : '' },
+            panel: { type: 'AnamicoAlarmPanel', required: true },
+            delay: { value : '', required : false }
+        },
+        inputs: 0,
+        outputs: 1,
+        outputLabels: "alarm",
+        icon: "alarm.png",
+        label: function() {
+            return this.name || "Alarm";
+        },
+        paletteLabel: 'Alarm Triggered'
+    });
+</script>
+
+<script type="text/x-red" data-template-name="AnamicoAlarmTriggered">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-panel"><i class="fa fa-server"></i> Panel</label>
+        <input type="text" id="node-input-panel" placeholder="Panel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-delay"><i class="icon-tag"></i> Delay</label>
+        <input type="text" id="node-input-delay" placeholder="0 seconds">
+    </div>
+
+    <div class="form-tips">Tip: Set how long in seconds before this node fires when the panel goes into alarm state.</div>
+
+</script>
+
+<script type="text/x-red" data-help-name="AnamicoAlarmTriggered">
+    <h3>Alarm Trigger</h3>
+    <p>When the alarm panel changes to "Alarm" state, this node emits a message AFTER the configured delay.</p>
+</script>
