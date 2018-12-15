@@ -1,4 +1,7 @@
 # node-red-contrib-alarm
+[![Latest NPM Version](https://img.shields.io/npm/v/Anamico/node-red-contrib-proofpoint.svg)](https://www.npmjs.com/package/Anamico/node-red-contrib-proofpoint)
+
+
 Powerful and flexible node-red nodes to enable you to build your own home alarm system with any number of panels, zones, sensors, triggers and automations.
 Designed to work easily with (but does not require) homekit.
 
@@ -105,6 +108,11 @@ attached to a "StateChanged" node. So your dashboard dropdown would update to th
 So you could use a button, your Homekit client AND a dashboard widget all to arm and disarm the alarm panel, it's that powerful and completely up to you.
 
 Try using node-red-contrib-wemo, hue and zwave modules to tap into existing door sensors and movement sensors to act as your alarm panel inputs.
+
+# Donations [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url)
+
+If you would like to donate some money to support ongoing development or as a simple thank you for me sharing this project for others to use, please feel free to send money via
+[PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url).
 
 # Disclaimer
 
