@@ -80,13 +80,13 @@ module.exports = function(RED) {
                 // node.log(alarmType);
                 // node.log(isAlarm);
                 callback({
+                    initialState: true,
                     payload: {
                         //SecuritySystemTargetState: localState,
                         SecuritySystemCurrentState: alarmState,
                         alarmState: [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ][alarmState],
                         SecuritySystemAlarmType: alarmType,
-                        isAlarm: node.isAlarm,
-                        initialState: true
+                        isAlarm: node.isAlarm
                     }
                 });
             }, 100);
