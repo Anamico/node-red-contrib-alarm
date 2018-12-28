@@ -134,11 +134,10 @@ module.exports = function(RED) {
 
             if (!msg.payload) {
                 node.error('invalid payload', msg);
-                callback({
+                return callback && callback({
                     error: true,
                     label: "invalid payload"
                 });
-                return;
             }
 
             const targetState = msg.payload.SecuritySystemTargetState;
@@ -151,11 +150,10 @@ module.exports = function(RED) {
             if (msg.payload.zone) {
                 if (msg.payload.modes.indexOf(node.alarmState) < 0) {
                     node.log('no alarm');
-                    callback({
+                    return callback && callback({
                         error: true,
                         label: "no alarm"
                     });
-                    return
                 }
                 node.log('Alarm: ');
                 newState = 4;
@@ -168,11 +166,10 @@ module.exports = function(RED) {
 
             if ((newState === undefined) && (newAlarmType === undefined)) {
                 node.error('invalid payload', msg);
-                callback({
+                return callback && callback({
                     error: true,
                     label: "invalid payload"
                 });
-                return;
             }
 
 // Has anything changed?
@@ -205,7 +202,7 @@ module.exports = function(RED) {
             }
 
             node.notifyChange(msg, fromHomekit);
-            callback({
+            callback && callback({
                 label: node.alarmModes[node.alarmState]
             });
         };
