@@ -46,10 +46,11 @@
 
     <div class="form-row"> &nbsp;</div>
     <div class="form-row">
-        <label for="node-input-sendInitialState"><i class="fa fa-wifi"></i> Send Initial State</label>
+        <label for="node-input-sendInitialState"><i class="fa fa-wifi"></i> Send Initial</label>
         <input type="checkbox" id="node-input-sendInitialState" value=1>
     </div>
-    <div class="form-tips">Tip: create a single 'panel' to basically be a single property or "zone", then attach everything associated with that property or zone to that panel.</div>
+    <div class="form-tips">Tip: This flag makes sure that on restart or redeploy, the current alarm state will be emitted from this node. If you don't need the state you can suppress it by deselecting this option.
+    Alternately, the "initial state" msg actually also has a msg.initialState = true flag, so you can filter it out selectively that way as well.</div>
 
 </script>
 
