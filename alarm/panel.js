@@ -85,7 +85,8 @@ module.exports = function(RED) {
                         SecuritySystemCurrentState: alarmState,
                         alarmState: [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ][alarmState],
                         SecuritySystemAlarmType: alarmType,
-                        isAlarm: node.isAlarm
+                        isAlarm: node.isAlarm,
+                        initialState: true
                     }
                 });
             }, 100);

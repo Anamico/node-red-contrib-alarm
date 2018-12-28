@@ -5,7 +5,8 @@
         defaults: {
             name: { value : "" },
             panel: { type: 'AnamicoAlarmPanel', required: true },
-            format: { value : '0', required : true }
+            format: { value : '0', required : true },
+            sendInitialState: { value: 1, required : true }
         },
         inputs: 0,
         outputs: 1,
@@ -42,6 +43,13 @@
 
     <div class="form-tips">Tip: Select "Homekit" format if this node is sending messages to a homekit alarm,
         otherwise the alarm will error out as we send other attributes in the payload it cannot understand.</div>
+
+    <div class="form-row"> &nbsp;</div>
+    <div class="form-row">
+        <label for="node-input-sendInitialState"><i class="fa fa-wifi"></i> Send Initial State</label>
+        <input type="checkbox" id="node-input-sendInitialState" value=1>
+    </div>
+    <div class="form-tips">Tip: create a single 'panel' to basically be a single property or "zone", then attach everything associated with that property or zone to that panel.</div>
 
 </script>
 
