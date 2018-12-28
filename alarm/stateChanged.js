@@ -29,6 +29,9 @@ module.exports = function(RED) {
                 text:node._panel.alarmModes[node._panel.alarmState]
             });
 
+            if (msg.initialState && !config.sendInitialState) {
+                return;
+            }
             if (msg.payload) {
                 switch (node.format) {
                     case Formats.homekit:
