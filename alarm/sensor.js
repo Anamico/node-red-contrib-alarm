@@ -53,6 +53,7 @@ module.exports = function(RED) {
             //
             // alarm state
             //
+            const SecuritySystemCurrentState = msg.payload && msg.payload.SecuritySystemCurrentState;
             if (SecuritySystemCurrentState !== 4) {
                 node.status({});
             }
