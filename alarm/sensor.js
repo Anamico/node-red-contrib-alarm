@@ -15,7 +15,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
 
-            node.log(node.alarmStates);
+            //node.log(node.alarmStates);
 
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
 
@@ -33,8 +33,8 @@ module.exports = function(RED) {
             }, 3000);
 
             node._panel && node._panel.sensor(msg, function(triggered) {
-                node.log('triggered: ' + triggered);
                 if (triggered) {
+                    node.log('triggered:' + triggered);
                     if (node.resetTimer) {
                         clearTimeout(node.resetTimer);
                         node.resetTimer = null;
