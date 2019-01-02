@@ -49,7 +49,7 @@ module.exports = function(RED) {
         /**
          * listen for panel state changes
          */
-        node.panel && node._panel.registerStateListener(node, function(msg) {
+        node._panel && node._panel.registerStateListener(node, function(msg) {
             //
             // alarm state
             //
