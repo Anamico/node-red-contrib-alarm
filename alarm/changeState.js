@@ -72,7 +72,7 @@ module.exports = function(RED) {
             msg.payload.fromHomekit = ( node.format == Formats.homekit);
 
             node.status({ fill: "blue", shape:"dot", text: "updating panel..." });
-            node._panel.setState(msg, function(result) {
+            node._panel && node._panel.setState(msg, function(result) {
                 node.status({ fill: result.error || node._panel.isAlarm ? "red" : "green", shape: "dot", text: result.label });
             });
         });
@@ -80,7 +80,7 @@ module.exports = function(RED) {
         /**
          * listen for panel state changes
          */
-        this._panel.registerStateListener(this, function(msg) {
+        node.panel && node._panel.registerStateListener(this, function(msg) {
             if (node.configError) { node._panel.deregisterStateListener(node); return; }   // ignore everything if in error state, can only redeploy to fix this state
             node.status({
                 fill: node._panel.isAlarm ? "red" : "green",
@@ -95,7 +95,7 @@ module.exports = function(RED) {
          * clean up on node removal
          */
         node.on('close', function() {
-            node._panel.deregisterStateListener(node);
+            node._panel && node._panel.deregisterStateListener(node);
         });
     }
     RED.nodes.registerType("AnamicoAlarmChangeState", AnamicoAlarmChangeState);

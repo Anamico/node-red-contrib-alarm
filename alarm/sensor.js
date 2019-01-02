@@ -32,20 +32,38 @@ module.exports = function(RED) {
                 // todo: allow for momentary and fixed (motion vs nc/no)
             }, 3000);
 
-            node._panel.sensor(msg, function(triggered) {
+            node._panel && node._panel.sensor(msg, function(triggered) {
                 node.log('triggered: ' + triggered);
                 if (triggered) {
                     if (node.resetTimer) {
                         clearTimeout(node.resetTimer);
                         node.resetTimer = null;
                     }
-                    node.status({ fill:"red", shape:"dot", text:"ALARM!" });
-                    return;
+                    return node.status({ fill:"red", shape:"dot", text:"ALARM!" });
                 }
             });
         });
 
         // todo: persist the sensor state on the panel and check it/warn/alarm if alarm state when arming the panel
+
+        /**
+         * listen for panel state changes
+         */
+        node.panel && node._panel.registerStateListener(node, function(msg) {
+            //
+            // alarm state
+            //
+            if (SecuritySystemCurrentState !== 4) {
+                node.status({});
+            }
+        });
+
+        /**
+         * clean up on node removal
+         */
+        node.on('close', function() {
+            node._panel && node._panel.deregisterStateListener(node);
+        });
 
     }
     RED.nodes.registerType("AnamicoAlarmSensor", AnamicoAlarmSensor);

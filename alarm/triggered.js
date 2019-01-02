@@ -52,7 +52,7 @@ module.exports = function(RED) {
         /**
          * listen for panel state changes
          */
-        this._panel.registerStateListener(this, function(msg) {
+        node._panel && node._panel.registerStateListener(this, function(msg) {
             const SecuritySystemCurrentState = msg.payload.SecuritySystemCurrentState;
             const SecuritySystemAlarmType = msg.payload.SecuritySystemAlarmType;
 
@@ -86,7 +86,7 @@ module.exports = function(RED) {
          * clean up on node removal
          */
         node.on('close', function() {
-            node._panel.deregisterStateListener(node);
+            node._panel && node._panel.deregisterStateListener(node);
             if (node.timer) {
                 clearTimeout(node.timer);
                 node.timer = null;
