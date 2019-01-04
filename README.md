@@ -61,11 +61,15 @@ A sensor is an input to the alarm panel that you configure with one or more acti
 But a hall motion sensor may only be armed in "Away" mode.
 
 ![Sensor Examples](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/sensors.png "Sensor Examples")
-![Door Sensor Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/laundry-door.png "Door Sensor Example")
 ![Smoke Detector Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest.png "Smoke Detector Example")
 
 If a sensor receives ANY message at all, it will trigger an alarm IF the alarm panel it is associated with is in a mode that you have nominated as an "Active" alarm mode
 in the sensor node configuration.
+
+You can also use these nodes in flows that expose zwave or zigbee devices (like concealed door sensors) to homekit-bridge or other nodes:
+
+![Door Sensor Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/laundry-door.png "Door Sensor Example")
+
 
 ## Alarm Triggered
 
@@ -107,6 +111,9 @@ Try using node-red-contrib-wemo, hue and zwave modules to tap into existing door
 By wiring up a smoke detector, you can configure the node to alarm only in away mode:
 
 ![Smoke Detector Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest.png "Smoke Detector Example")
+
+Example node-red-contrib-nest node configuration:
+
 ![Nest Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest-config.png "Nest Configuration")
 
 And use a function node to just set off an alarm IF there is any smoke detected at all:
