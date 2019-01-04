@@ -13,14 +13,6 @@ There is 1 configuration node and four flow node types currently provided:
 4. Sensor node
 5. Alarm Triggered node
 
-## Breaking Change from 0.9.4!
-
-NOTE: Once you upgrade from 0.9.4, you need to update all "Change State" and "State Changed" nodes configurations to select a "Format" from 1 of 3 values.
-
-* Default - Basic payload
-* Homekit - Special mode for working with HomeBridge Alarm Nodes
-* Value - A new mode that essentially just sets or accepts a single 0 to 4 value as the payload. This was introduced to work directly with Dashboard and a few other node-red nodes.
-
 ## AlarmPanel
 
 Create an alarmPanel configuration node to tie together states and sensors for a property or zone. So for a simple house with just arming and disarming, create a single panel.
@@ -69,6 +61,8 @@ A sensor is an input to the alarm panel that you configure with one or more acti
 But a hall motion sensor may only be armed in "Away" mode.
 
 ![Sensor Examples](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/sensors.png "Sensor Examples")
+![Door Sensor Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/laundry-door.png "Door Sensor Example")
+![Smoke Detector Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest.png "Smoke Detector Example")
 
 If a sensor receives ANY message at all, it will trigger an alarm IF the alarm panel it is associated with is in a mode that you have nominated as an "Active" alarm mode
 in the sensor node configuration.
@@ -84,7 +78,7 @@ it will wait the number of seconds specified before firing (emitting a payload).
 You can use this node to perhaps emit a payload immediately on alarm state to start some "warning beeps" from an internal alarm.
 Then have another one set up to only fire after 30 seconds (an "entrance" delay) to trigger the main siren and strobe.
 
-# Usage Example
+# Usage Examples
 
 A basic configuration to work with HomeKit would be to use a HomeKit Bridge node between a "StateChanged" and a "ChangeState" node.
 
@@ -108,10 +102,40 @@ So you could use a button, your Homekit client AND a dashboard widget all to arm
 
 Try using node-red-contrib-wemo, hue and zwave modules to tap into existing door sensors and movement sensors to act as your alarm panel inputs.
 
+## Nest Smoke Detector Example
+
+By wiring up a smoke detector, you can configure the node to alarm only in away mode:
+
+![Smoke Detector Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest.png "Smoke Detector Example")
+![Nest Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/nest-config.png "Nest Configuration")
+
+And use a function node to just set off an alarm IF there is any smoke detected at all:
+
+```javascript
+// if ANY smoke is detected when no one is home, then we need to set off the alarm
+// the alternate reported states from nest smoke detectors are "warning" and "emergency"
+// BOTH are bad if no one is home, as ANY smoke is a problem if no one is home (It could not be burnt toast!)
+// we didn't bother with msg.payload.co_alarm_state as carbon monoxide would not typically requires fire department attendance
+
+if (msg.payload.smoke_alarm_state == "ok") {
+    return;
+}
+
+return msg;
+```
+
 # Donations [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url)
 
 If you would like to donate some money to support ongoing development or as a simple thank you for me sharing this project for others to use, please feel free to send money via
 [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url).
+
+# Breaking Change from 0.9.4!
+
+NOTE: Once you upgrade from 0.9.4, you need to update all "Change State" and "State Changed" nodes configurations to select a "Format" from 1 of 3 values.
+
+* Default - Basic payload
+* Homekit - Special mode for working with HomeBridge Alarm Nodes
+* Value - A new mode that essentially just sets or accepts a single 0 to 4 value as the payload. This was introduced to work directly with Dashboard and a few other node-red nodes.
 
 # Disclaimer
 
