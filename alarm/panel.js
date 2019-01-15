@@ -203,11 +203,15 @@ module.exports = function(RED) {
             }
 
             node.notifyChange(msg, fromHomekit);
-            callback && callback({
-                label: node.alarmModes[node.alarmState]
-            });
+            console.log("callback", callback);
+            if (callback) {
+                callback({
+                    label: node.alarmModes[node.alarmState]
+                });
+            }
         };
     }
+    
     RED.nodes.registerType("AnamicoAlarmPanel", AnamicoAlarmPanel);
 };
 
