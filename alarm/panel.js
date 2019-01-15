@@ -113,7 +113,9 @@ module.exports = function(RED) {
             // node.log(JSON.stringify(node.stateListeners,null,2));
 
             async.each(node.stateListeners, function(listener, callback) {
+                console.log("1", JSON.stringify(msg,null,2));
                 listener(JSON.parse(JSON.stringify(msg)));
+                console.log("2", JSON.stringify(msg,null,2));
                 callback(null);
             });
         };
