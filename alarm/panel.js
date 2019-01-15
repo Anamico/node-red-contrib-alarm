@@ -113,7 +113,7 @@ module.exports = function(RED) {
             // node.log(JSON.stringify(node.stateListeners,null,2));
 
             async.each(node.stateListeners, function(listener, callback) {
-                listener(msg);
+                listener(JSON.parse(JSON.stringify(msg)));
                 callback(null);
             });
         };
@@ -211,7 +211,7 @@ module.exports = function(RED) {
             }
         };
     }
-    
+
     RED.nodes.registerType("AnamicoAlarmPanel", AnamicoAlarmPanel);
 };
 
