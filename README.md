@@ -106,6 +106,21 @@ So you could use a button, your Homekit client AND a dashboard widget all to arm
 
 Try using node-red-contrib-wemo, hue and zwave modules to tap into existing door sensors and movement sensors to act as your alarm panel inputs.
 
+## Siren Example
+
+This example uses a zwave siren like [this](http://www.smarthome.com.au/vision-z-wave-outdoor-siren.html) or [this](http://www.smarthome.com.au/vision-z-wave-wireless-siren-strobe.html) connected to openhab2 and using
+[node-red-contrib-openhab2](https://flows.nodered.org/node/node-red-contrib-openhab2).
+
+To cater for an "Entry Delay" (in case someone forgets to disarm the alarm before entering the building), you can use the "alarm" node to start the alarm and the normal "State Changed" node to reset the alarm.
+
+![Siren Example](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/siren.png "Siren Example")
+
+In this example, the "State Changed" node is configured as a "Value" output. In this configuration it will emit a "msg.payload == 3" on disarming the system. This is the check you need to put in the "switch" node. Then the "Alarm Off" node sets payload to "OFF"
+to turn off the siren when the alarm is disarmed.
+
+To trigger the alarm, use an "Alarm" node with a suitable delay configuration (15 seconds? up to you). Then have a "Alarm On" node to set payload to "ON".
+
+
 ## Nest Smoke Detector Example
 
 By wiring up a smoke detector, you can configure the node to alarm only in away mode:
