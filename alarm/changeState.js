@@ -56,13 +56,19 @@ module.exports = function(RED) {
             }
             delete msg.hap; // make sure we remove "hap" details to avoid future problems down the track.
 
-            if (!msg.payload) {
-                node.error('empty message received', msg);
-                node.status({ fill: "red", shape: "dot", text: "empty message received" });
+            // basic sanity check
+            if (typeof msg.payload === 'undefined') {
+                node.error('missing payload', msg);
+                node.status({ fill: "red", shape: "dot", text: "missing payload" });
                 return
             }
 
             if ( node.format == Formats.value) {    // raw value mode, the incoming value is the desired alarm state
+                if (isNaN(msg.payload)) {
+                    node.error('non-numeric payload received', msg);
+                    node.status({ fill: "red", shape: "dot", text: "non-numeric payload received" });
+                    return
+                }
                 msg.payload = {
                     SecuritySystemTargetState: msg.payload,
                     SecuritySystemCurrentState: msg.payload
