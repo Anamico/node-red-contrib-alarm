@@ -52,8 +52,8 @@ module.exports = function(RED) {
                 callback(false);
                 return false;
             }
-            // node.log(msg.payload.modes);
-            // node.log(msg.payload.modes.indexOf(node.alarmState));
+            //node.log(JSON.stringify(msg.payload));
+            //node.log(msg.payload.modes.indexOf(node.alarmState));
             if (msg.payload.modes.indexOf(node.alarmState) < 0) {
                 callback(false);
                 return;
@@ -113,9 +113,9 @@ module.exports = function(RED) {
             // node.log(JSON.stringify(node.stateListeners,null,2));
 
             async.each(node.stateListeners, function(listener, callback) {
-                console.log("1", JSON.stringify(msg,null,2));
+                //console.log("1", JSON.stringify(msg,null,2));
                 listener(JSON.parse(JSON.stringify(msg)));
-                console.log("2", JSON.stringify(msg,null,2));
+                //console.log("2", JSON.stringify(msg,null,2));
                 callback(null);
             });
         };
@@ -148,6 +148,7 @@ module.exports = function(RED) {
             var newState = currentState !== undefined ? currentState : targetState;
             var newAlarmType = msg.payload.SecuritySystemAlarmType;
             var alarmType = newAlarmType !== undefined ? newAlarmType : node.alarmType;
+            var alarmSource = msg.payload.source;
 
 // look for alarms
             if (msg.payload.zone) {
@@ -166,6 +167,7 @@ module.exports = function(RED) {
             node.log('newState: ' + newState + ' = ' + targetState + ' || ' + currentState);
             node.log('localState: ' + node.alarmState);
             node.log('alarmType: ' + alarmType + ' = ' + newAlarmType + ' || ' + node.alarmType);
+            node.log('alarmSource: ' + alarmSource);
 
             if ((newState === undefined) && (newAlarmType === undefined)) {
                 node.error('invalid payload', msg);
@@ -196,7 +198,8 @@ module.exports = function(RED) {
             msg.payload = {
                 //SecuritySystemTargetState: global.SecuritySystemCurrentState,
                 SecuritySystemCurrentState: node.alarmState,
-                alarmState: node.alarmModes[node.alarmState]
+                alarmState: node.alarmModes[node.alarmState],
+		        alarmSource: alarmSource
             };
             msg.payload.isAlarm = node.isAlarm;
 
@@ -205,7 +208,7 @@ module.exports = function(RED) {
             }
 
             node.notifyChange(msg, fromHomekit);
-            console.log("callback", callback);
+            //console.log("callback", callback);
             if (callback) {
                 callback({
                     label: node.alarmModes[node.alarmState]
