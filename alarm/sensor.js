@@ -21,6 +21,7 @@ module.exports = function(RED) {
 
             msg.payload = {
                 zone: "test",
+		        source: node.name,
                 modes: node.alarmStates
             };
 
