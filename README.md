@@ -120,6 +120,37 @@ to turn off the siren when the alarm is disarmed.
 
 To trigger the alarm, use an "Alarm" node with a suitable delay configuration (15 seconds? up to you). Then have a "Alarm On" node to set payload to "ON".
 
+## Entry Delay Example
+
+You can use the delay configuration on alarm modes to create an entry delay and push notifications or turn on siren "pips" accordingly.
+This is how you could configure a 60 second entry delay with warning pips on an internal siren (like this one:) and push alerts to slack (so you get notified immediately if the alarm trips, and to also act as a warning via your phone if the warning pips fail (no batteries?).
+
+![Entry Delay Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/delay1.png "Entry Delay Configuration")
+
+1. The top "Alarm" node is configured with a 60 second delay. So it will turn on the main siren and post an alarm state to Slack 60 seconds after the alarm trips IF the alarm is not turned off before then.
+2. The 60, 30, 20 and 10 second alarm delays actually trigger after 0, 30, 40 and 50 seconds respectively, they announce that remains before the full alarm sounds via slack and ensure the internal piezo buzzer is set to "pip" mode.
+
+For example, if you follow the nodes leading from the "10 Seconds" alarm mode, it is configured with a delay of 50 seconds (10 seconds before main alarm).
+
+![50 Second Delay Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/delay2.png "50 Second Delay Configuration")
+
+It ensures the internal piezo is still in "pip" mode (because if it somehow stopped, it's incorrect because the alarm has not been disabled). And feeds to a function node that sets the topic to send to slack:
+
+![50 Second Slack Function Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/delay3.png "50 Second Slack Function Configuration")
+
+With an appropriate payload to format the notification.
+
+```json
+{
+    "text": "Alarm in 10 Seconds!",
+    "username": "Alarm",
+    "as_user": false,
+    "icon_emoji": "cop",
+    "channel": "alarm"
+}
+```
+
+Likewise, you can use any such notification service, slack is just an example of a free way to notify your phone and desktop (pretty much any device actually).
 
 ## Nest Smoke Detector Example
 

@@ -13,39 +13,10 @@
       "/root/.node-red"
     ]
   ],
-  "_from": "node-red-contrib-alarm@latest",
-  "_hasShrinkwrap": false,
-  "_id": "node-red-contrib-alarm@1.1.2",
-  "_inCache": true,
-  "_location": "/node-red-contrib-alarm",
-  "_nodeVersion": "9.4.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/node-red-contrib-alarm_1.1.2_1548194014393_0.14865392853115544"
-  },
   "_npmUser": {
     "name": "anamico",
     "email": "manager@ImagineIT.com.au"
   },
-  "_npmVersion": "6.1.0",
-  "_phantomChildren": {},
-  "_requested": {
-    "raw": "node-red-contrib-alarm",
-    "scope": null,
-    "escapedName": "node-red-contrib-alarm",
-    "name": "node-red-contrib-alarm",
-    "rawSpec": "",
-    "spec": "latest",
-    "type": "tag"
-  },
-  "_requiredBy": [
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/node-red-contrib-alarm/-/node-red-contrib-alarm-1.1.2.tgz",
-  "_shasum": "7a89a326dafce3fa521f10131ea3b59a63ff6b67",
-  "_shrinkwrap": null,
-  "_spec": "node-red-contrib-alarm",
-  "_where": "/root/.node-red",
   "author": {
     "name": "Andrew"
   },
@@ -64,16 +35,7 @@
   "description": "Nodes to build your own home alarm system. Designed to work easily with (but does not require) homekit.",
   "devDependencies": {},
   "directories": {},
-  "dist": {
-    "integrity": "sha512-OthCcZGcUPME9eEiSPJqi8BLIiXbIy+TYOE8SZdEVZ0WXZMFrM6u6zpgkUpiFhS5m17VeHFYCsDyyxBKlfYckg==",
-    "shasum": "7a89a326dafce3fa521f10131ea3b59a63ff6b67",
-    "tarball": "https://registry.npmjs.org/node-red-contrib-alarm/-/node-red-contrib-alarm-1.1.2.tgz",
-    "fileCount": 30,
-    "unpackedSize": 226228,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcR5DfCRA9TVsSAnZWagAAdtcQAJnRoyew5USmsidFwRdz\nqICZ4D+KlHiphqaJMyYFRT8nHR2YG5ZEhY/qoOZOUOHF6r4QQcztygoW3PKn\n5VjFwYOIxU7D7fc6iOxJD6qTVNewV+k2tJvwgwzQt3IZOnm/yDr+n9KIjZdq\nkheqSsgdWx0iODabK5rsC6INFyDYYmQLjUlN1yxxaUpoGBgQ3IDt/lmEKATV\nH0oKV6nLYgdEhwc4lazjLJHh8hSjleD6HeARR6cL+8qw9nWAAAPkbL/qulYL\nfbDdzNqfE566cE/w+6t6sXBMuvXwacBguJNuwO8ZmefD5LV7nMBOE5uUSzRi\nKdXpHPBZun/N8soyDe1wlerPplMtcG+KzSGsvDDdbxWjkUR2tAwXOmTlhF3j\ndqw4tsN1Pcf4Z7L9wqAv5VYHyqRbQxQqPP6HxG4sE97T4qwSi4LtqKAuoUw6\nl6PfcZMG+DmSOK0KXJO69lo9jNQCDOu/p8rGkGhJeLoarhz3Y+B9XKbgnvDK\naA42EBqvXqf63/e19Oi0M5sz6jW0DqC7kOEH7JoXwCGGmE/D4uz3LL5VRdz6\n3be8gEeRKbaPoiBFvDrAKkq3dsuECPVCu3W4OLM0ey6niY6wY1OF5P1PatzF\nTNhfSHjc8t3S/w45SVf1f9hN7Yn40IIsMlX022RL+j1hxkgw/wcOFhBmOiik\nExJu\r\n=v3Oq\r\n-----END PGP SIGNATURE-----\r\n"
-  },
   "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url",
-  "gitHead": "9ad7bdab3be85935423840f982097b5a973b967b",
   "homepage": "https://github.com/Anamico/node-red-contrib-alarm#readme",
   "keywords": [
     "node-red",
@@ -85,8 +47,8 @@
   "license": "MIT",
   "maintainers": [
     {
-      "name": "anamico",
-      "email": "manager@ImagineIT.com.au"
+      "name": "Andrew",
+      "email": "roo@roo.emu.id.au"
     }
   ],
   "name": "node-red-contrib-alarm",
@@ -108,5 +70,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.1.2"
+  "version": "1.2.0"
 }
