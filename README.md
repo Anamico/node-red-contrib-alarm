@@ -123,7 +123,7 @@ To trigger the alarm, use an "Alarm" node with a suitable delay configuration (1
 ### Entry Delay Example
 
 You can use the delay configuration on alarm modes to create an entry delay and push notifications or turn on siren "pips" accordingly.
-This is how you could configure a 60 second entry delay with warning pips on an internal siren (like [this](https://www.ozsmartthings.com.au/products/dome-z-wave-siren) and push alerts to slack (so you get notified immediately if the alarm trips, and to also act as a warning via your phone if the warning pips fail (no batteries?).
+This is how you could configure a 60 second entry delay with warning pips on an internal siren (like [this](https://www.ozsmartthings.com.au/products/dome-z-wave-siren)) and push alerts to slack (so you get notified immediately if the alarm trips, and to also act as a warning via your phone if the warning pips fail (no batteries?).
 
 ![Entry Delay Configuration](https://github.com/Anamico/node-red-contrib-alarm/raw/master/images/delay1.png "Entry Delay Configuration")
 
