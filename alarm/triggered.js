@@ -40,7 +40,7 @@ module.exports = function(RED) {
             });
             node.send({payload: {
                 alarm: true,
-                source: node,lastMsg && node,lastMsg.payload && node.lastMsg.payload.alarmSource
+                source: node.lastMsg && node.lastMsg.payload && node.lastMsg.payload.alarmSource
             }});
         }
 
