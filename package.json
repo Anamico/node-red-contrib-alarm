@@ -30,6 +30,7 @@
     }
   ],
   "dependencies": {
+    "debug": "^4.3.1",
     "async": "^2.6.1"
   },
   "description": "Nodes to build your own home alarm system. Designed to work easily with (but does not require) homekit.",
@@ -69,5 +70,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.2.1"
+  "version": "1.2.2"
 }

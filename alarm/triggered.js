@@ -38,7 +38,10 @@ module.exports = function(RED) {
                 shape:  "dot",
                 text:   node._panel.alarmModes[node._panel.alarmState]
             });
-            node.send({payload: { alarm: true, source: node.lastMsg.payload.alarmSource }});
+            node.send({payload: {
+                alarm: true,
+                source: node,lastMsg && node,lastMsg.payload && node.lastMsg.payload.alarmSource
+            }});
         }
 
         function clearAlarm() {
@@ -71,7 +74,7 @@ module.exports = function(RED) {
                             text: "" + node.counter
                         });
                     } else {
-			            node.lastMsg = msg;
+			node.lastMsg = msg;
                         emitAlarm();
                     }
                 }
