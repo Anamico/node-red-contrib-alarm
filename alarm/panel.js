@@ -83,7 +83,7 @@ module.exports = function(RED) {
                 callback({
                     initialState: true,
                     payload: {
-                        //SecuritySystemTargetState: localState,
+                        SecuritySystemTargetState: alarmState,
                         SecuritySystemCurrentState: alarmState,
                         alarmState: [ 'Home', 'Away', 'Night', 'Off', 'Alarm' ][alarmState],
                         SecuritySystemAlarmType: alarmType,
