@@ -1,4 +1,5 @@
 # node-red-contrib-alarm
+[![Latest NPM Version](https://img.shields.io/npm/v/node-red-contrib-alarm.svg)](https://www.npmjs.com/package/node-red-contrib-alarm)
 [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JUYN6NBFELTC2&source=url)
 
 Powerful and flexible node-red nodes to enable you to build your own home alarm system with any number of panels, zones, sensors, triggers and automations.
