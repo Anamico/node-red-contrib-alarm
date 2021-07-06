@@ -2,7 +2,8 @@
     RED.nodes.registerType('AnamicoAlarmPanel',{
         category: 'config',
         defaults: {
-            name: { value: "", required: true }
+            name: { value: "", required: true },
+            defaultState: { value: 0, required: true }
         },
         label: function() {
             return this.name || "Panel";
@@ -15,7 +16,16 @@
         <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
         <input type="text" id="node-config-input-name">
     </div>
-    <div class="form-tips">Tip: don't forget to turn on persistence for global state, or when you restart node-red it will reset alarm state to "Home" every time.</div>
+    <div class="form-row">
+        <label for="node-config-input-defaultState"><i class="fa fa-cog"></i> Default state</label>
+        <select id="node-config-input-defaultState" name="node-config-input-defaultState">
+            <option value="0">Home</option>
+            <option value="1">Away</option>
+            <option value="2">Night</option>
+            <option value="3">Off</option>
+        </select>
+    </div>
+    <div class="form-tips">Tip: Don't forget to turn on persistence for global state. Otherwise the alarm state will be reset to the selected "Default state" when you restart Node-RED.</div>
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmPanel">
