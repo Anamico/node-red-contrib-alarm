@@ -19,7 +19,15 @@ module.exports = function(RED) {
         console.log('node id ', node.nodeId);
         console.log('SecuritySystemCurrentState_' + node.nodeId);
 
-        this.alarmState = node.context().global.get('SecuritySystemCurrentState_' + node.nodeId) || 0;
+        this.defaultState = config.defaultState;
+
+        if(config.defaultState) {
+            this.defaultState = config.defaultState;
+        }else {
+            this.defaultState = 0;
+        }
+
+        this.alarmState = node.context().global.get('SecuritySystemCurrentState_' + node.nodeId) || this.defaultState;
         this.alarmType = node.context().global.get('SecuritySystemAlarmType_' + node.nodeId) || 0;
         this.isAlarm = node.alarmState === 4;
 
@@ -74,7 +82,7 @@ module.exports = function(RED) {
 
             // also emit current state on registration (after delay of 100 msec?):
             setTimeout(function() {
-                const alarmState = node.context().global.get('SecuritySystemCurrentState_' + node.nodeId) || 0;
+                const alarmState = node.context().global.get('SecuritySystemCurrentState_' + node.nodeId) || this.defaultState;
                 const alarmType = node.context().global.get('SecuritySystemAlarmType_' + node.nodeId) || 0;
                 const isAlarm = alarmState === 4;
                 // node.log(alarmState);
