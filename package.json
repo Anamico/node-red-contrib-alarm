@@ -31,7 +31,8 @@
   ],
   "dependencies": {
     "debug": "^4.3.1",
-    "async": "^2.6.1"
+    "async": "^2.6.1",
+    "filtrex": "^3.0.0-rc11"
   },
   "description": "Nodes to build your own home alarm system. Designed to work easily with (but does not require) homekit.",
   "devDependencies": {},

@@ -6,7 +6,13 @@
             name: { value : "", required: true },
             panel: { type: 'AnamicoAlarmPanel', required: true },
             alarmStates: { value : "1", required: true, validate:RED.validators.regex(/.{1,}/) },
-            triggerType: { value : null, required: false }
+            triggerType: { value : null, required: false }, // Legacy property
+            triggerCondition: { value : "", required: false, validate:function(v) { return !this.triggerConditionError; } },
+            // Use the triggerConditionError property to let Node-RED know whether the trigger expression contains a syntax error or not.
+            // This way the flow editor knows whether a red triangle should be drawn for this node or not.
+            // The triggerConditionError property will be filled in the oneditsave.
+            // This way we can avoid running the expression check every time the validator is called, since the expression won't change meanwhile anyway...
+            triggerConditionError: { value : false},
         },
         inputs: 1,
         outputs: 0,
@@ -18,8 +24,47 @@
         paletteLabel: 'Alarm Sensor',
         oneditprepare: function() {
             //called at launch time
+            
+            var node = this;
 
+            // Check the expression syntax (at server side), for every change made in the expression input
+            $('#node-input-triggerCondition').keyup(function() {
+                var triggerExpression = this.value;
 
+                $.ajax({
+                    method: 'POST',
+                    url: 'anamico-alarm-sensor/check/',
+                    data: {expression: btoa(triggerExpression)},
+                    success: function(response){
+                        // Draw a red border around the expression input field if necessary (similar how the validation functions do it)
+                        if (response.result === "error") {
+                            $('#node-input-triggerCondition').addClass("input-error");
+                            node.triggerConditionError = true;
+                        }
+                        else { // "ok"
+                            $('#node-input-triggerCondition').removeClass("input-error");
+                            node.triggerConditionError = false;
+                        }
+                    }
+                });
+            });
+
+            // For older nodes (version 1.2.5 and below) there was a dropdown triggerType, but no triggerCondition expression.
+            // When the config screen of this node is being opened, the triggerType should be migrated to a corresponding triggerCondition expression.
+            if (!this.triggerCondition) {
+                if (this.triggerType == "1") {
+                    $('#node-input-triggerCondition').val("msg.payload.open == true");
+                }
+                else {
+                    // "Any message" means no trigger condition
+                    $('#node-input-triggerCondition').val("");
+                }
+            }
+            else {
+                // Make sure the condition is checked when the config screen is opened
+                $('#node-input-triggerCondition').val(this.triggerCondition);
+                $('#node-input-triggerCondition').keyup();
+            }
 
             $.get('allow2/paired/' + configId, function( data, textStatus, jqXHR ) {
                 //write access token value back out to the form
@@ -145,6 +190,13 @@
                 });
             });
         },
+        oneditsave: function() {
+            // Store the result of the last (server side) trigger expression check
+            this.triggerConditionError = false;
+            if ($('#node-input-triggerCondition').hasClass("input-error")) {
+               this.triggerConditionError = true;
+            }
+        },
         exportable: false
     });
 </script>
@@ -172,13 +224,10 @@
 
     <div class="form-row"></div>
     <div class="form-row">
-        <label for="node-input-triggerType"><i class="fa fa-filter"></i> Trigger</label>
-        <select id="node-input-triggerType">
-            <option value="">Any Message</option>
-            <option value="1">msg.payload.open == true</option>
-        </select>
+        <label for="node-input-triggerCondition"><i class="fa fa-filter"></i> Trigger</label>
+        <input type="text" id="node-input-triggerCondition" placeholder="Logical (boolean) expression">
     </div>
-    <div class="form-tips">Tip: Having no triggers defined will make this sensor trigger on ANY message. Otherwise, define a condition under which the sensor is considered "tripped".</div>
+    <div class="form-tips">Tip: Having no trigger condition defined will make this sensor trigger on ANY message. Otherwise, define a condition under which the sensor is considered "tripped".</div>
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmSensor">
