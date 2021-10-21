@@ -64,10 +64,16 @@ module.exports = function(RED) {
             //node.log(node.alarmStates);
             
             if (!node.triggerFunction) {
+                node.warn("Invalid trigger condition expression cannot evaluate message");
                 return;
             }
             
             var trigger = node.triggerFunction({msg: msg});
+            
+            if (trigger !== true && trigger !== false) {
+                // Invalid input (e.g. "5" instead of 5) will result in trigger containing "TypeError: expected ..."
+                trigger = false;
+            }
 
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
 
