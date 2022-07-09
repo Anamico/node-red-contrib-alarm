@@ -13,7 +13,7 @@ module.exports = function(RED) {
         if (isNaN(this.delay)) {
             this.delay == 10;
         }
-        
+
         this.timer = null;
         this.hasAlarmed = false;
 
@@ -21,13 +21,13 @@ module.exports = function(RED) {
          * fire the alarm output
          */
         function emitAlarm() {
-            node.counter = node.counter - 1;
             if (node.counter > 0) {
                 node.status({
                     fill:   "grey",
                     shape:  "dot",
                     text:   "" + node.counter
                 });
+                node.counter = node.counter - 1;
                 node.timer = setTimeout(emitAlarm, 1000);
                 return;
             }
@@ -66,17 +66,8 @@ module.exports = function(RED) {
             if (SecuritySystemCurrentState == 4) {
                 if (!node.timer && !node.hasAlarmed) {
                     node.counter = node.delay;
-                    if (node.counter > 0) {
-                        node.timer = setTimeout(emitAlarm, 1000);
-                        node.status({
-                            fill: "grey",
-                            shape: "dot",
-                            text: "" + node.counter
-                        });
-                    } else {
-			node.lastMsg = msg;
-                        emitAlarm();
-                    }
+                    node.lastMsg = msg;
+                    emitAlarm();
                 }
             } else {
                 //
