@@ -40,6 +40,7 @@ module.exports = function(RED) {
             });
             node.send({payload: {
                 alarm: true,
+                panel: node._panel.name,
                 source: node.lastMsg && node.lastMsg.payload && node.lastMsg.payload.alarmSource
             }});
         }
