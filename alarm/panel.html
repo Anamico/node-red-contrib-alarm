@@ -8,6 +8,7 @@
         label: function() {
             return this.name || "Panel";
         },
+        paletteLabel: 'Alarm Panel',
         oneditprepare() {
             const $nodeInputContextStore = $('#node-config-input-contextStore');
 
@@ -33,7 +34,7 @@
 </script>
 
 <script type="text/x-red" data-help-name="AnamicoAlarmPanel">
-    <h3>Alarm Config Node</h3>
+    <h3>Alarm Panel Config</h3>
     <p>Represents a single control panel, like a panel (or zone) for a house.</p>
     <p>If you want to have multiple 'zones', then create a panel for each one and they can be armed/disarmed independently.</p>
     <p>Inputs can be sent to multiple zones, so if you have a shared motion detector for 2 zones for instance, it will alarm
