@@ -75,7 +75,7 @@ module.exports = function(RED) {
                 trigger = false;
             }
 
-            node.status({ fill:"blue", shape:"dot", text:"trigger" });
+            node.status({ fill:"blue", shape:"dot", text:"Trigger" });
 
             msg.payload = {
                 zone: "test",
@@ -98,7 +98,7 @@ module.exports = function(RED) {
                         clearTimeout(node.resetTimer);
                         node.resetTimer = null;
                     }
-                    return node.status({ fill:"red", shape:"dot", text:"ALARM!" });
+                    return node.status({ fill:"red", shape:"dot", text:"Alarm" });
                 }
             });
         });

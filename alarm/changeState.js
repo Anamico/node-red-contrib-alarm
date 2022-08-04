@@ -45,7 +45,7 @@ module.exports = function(RED) {
             // error if not in homekit mode and we get a homekit message
             if (( node.format != Formats.homekit ) && msg.hap && msg.hap.context) {
                 node.error('homekit message received when not in homekit mode', msg);
-                node.status({ fill: "red", shape: "dot", text: "homekit message received" });
+                node.status({ fill: "red", shape: "dot", text: "Homekit message received" });
                 this.configError = true;
                 return
             }
@@ -59,14 +59,14 @@ module.exports = function(RED) {
             // basic sanity check
             if (typeof msg.payload === 'undefined') {
                 node.error('missing payload', msg);
-                node.status({ fill: "red", shape: "dot", text: "missing payload" });
+                node.status({ fill: "red", shape: "dot", text: "Missing payload" });
                 return
             }
 
             if ( node.format == Formats.value) {    // raw value mode, the incoming value is the desired alarm state
                 if (isNaN(msg.payload)) {
                     node.error('non-numeric payload received', msg);
-                    node.status({ fill: "red", shape: "dot", text: "non-numeric payload received" });
+                    node.status({ fill: "red", shape: "dot", text: "Non-numeric payload received" });
                     return
                 }
                 msg.payload = {
@@ -77,7 +77,7 @@ module.exports = function(RED) {
 
             msg.payload.fromHomekit = ( node.format == Formats.homekit);
 
-            node.status({ fill: "blue", shape:"dot", text: "updating panel..." });
+            node.status({ fill: "blue", shape:"dot", text: "Updating panel..." });
             node._panel && node._panel.setState(msg, function(result) {
                 node.status({ fill: result.error || node._panel.isAlarm ? "red" : "green", shape: "dot", text: result.label });
             });
