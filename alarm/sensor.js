@@ -75,6 +75,11 @@ module.exports = function(RED) {
                 trigger = false;
             }
 
+            // if the sensor wasn't triggered then exit early
+            if (!trigger) {
+                return;
+            }
+
             node.status({ fill:"blue", shape:"dot", text:"trigger" });
 
             msg.payload = {
